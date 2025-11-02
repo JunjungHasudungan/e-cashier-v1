@@ -3,6 +3,7 @@ function exampleDashboardCashier() {
     return {
         products: [],
         listProductOnChart: [],
+        selectedProduct: null,
         async getListProduct() {
             try {
                 let result = await axios.get('/example-getListProduct')
@@ -23,7 +24,13 @@ function exampleDashboardCashier() {
                     stock: product.stocks[0]?.quantity ?? 0
                 })
             }
-            console.log(this.listProductOnChart)
+        },
+        removeProductFromChart(productId) {
+            if (!productId) return
+            this.listProductOnChart = this.listProductOnChart.filter(item => item.id !== productId)
+        },
+        productInChart(productId) {
+            return this.listProductOnChart.some(item => item.id == productId)
         },
         incrementQty(product) {
             if (product.qty < product.stock) product.qty++
