@@ -3,7 +3,6 @@ function exampleDashboardCashier() {
     return {
         products: [],
         listProductOnChart: [],
-        selectedProduct: null,
         async getListProduct() {
             try {
                 let result = await axios.get('/example-getListProduct')

@@ -49,9 +49,12 @@ Route::view('dashboard', 'dashboard')
             ->name('update-product');
 
         // ROUTE FOR CASHIER
-        Route::get('dashboard-cashier', [CashierController::class, 'exampleIndex'])
+        Route::get('dashboard-cashier', [CashierController::class, 'index'])
             ->name('dashboard-cashier');
 
+        Route::get('list-products', [CashierController::class, 'getListProduct'])->name('list-products');
+
+        
         Route::get('example-getListProduct', [CashierController::class, 'exampleGetListProduct'])
             ->name('example-getListProduct');
 

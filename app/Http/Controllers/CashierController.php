@@ -12,6 +12,25 @@ class CashierController extends Controller
         return view('cashier.index');
      }
 
+    // membuat fungsi untuk mengambil data dan mengirim ke front-end
+    public function getListProduct() { 
+        try {
+            // mengambil data produk dan relasinya
+            $listProduct = Product::with('stocks')->get();
+
+            // mengembalikan data berbentuk json
+            return response()->json([
+                'data'  => $listProduct,
+                'message'   => 'get list product successfully'
+            ], 200);
+        } catch (\Exception $error) {
+            //melemparkan error bila data tidak ada
+            return response()->json([
+                'message'   => $error->getMessage()
+            ], 500);
+        }
+    } 
+
     public function exampleIndex() {
         return view('cashier.example-index');
     }
