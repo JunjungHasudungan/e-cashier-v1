@@ -131,10 +131,20 @@
                                                 <tr class="font-semibold text-gray-900 dark:text-white">
                                                     <th scope="row" class="px-6 py-3 text-xs">Jumlah Pembayaran</th>
                                                     <td class="px-6 py-3">
-                                                       <input type="number" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-2 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  />
-                                                    </td>
+                                                       <input
+                                                            type="number"
+                                                            x-model="dataOrderProduct.amount"
+                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-2 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  />
+                                                        <template x-if="messageError">
+                                                            <p x-text="messageError" class="mt-2.5 text-sm text-fg-danger-strong"></p>
+                                                        </template>
+                                                        </td>
                                                     <td class="px-3 py-3">
-                                                        <button x-on:click="payNow()" type="button" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-thin rounded-lg text-sm px-1 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                                        <button
+                                                            x-on:click="payNow()"
+                                                            type="button"
+                                                            x-show="dataOrderProduct.amount"
+                                                            class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-thin rounded-lg text-sm px-1 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                                                             Pay now
                                                         </button>
                                                     </td>

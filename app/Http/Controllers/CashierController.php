@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CashierController extends Controller
 {
@@ -47,5 +48,20 @@ class CashierController extends Controller
                 'message'   => $error->getMessage()
             ], 500);
         }
+    }
+
+    public function exampleStoreOrderProduct(Request $request) {
+         $validator = Validator::make($request->all(), [
+            'total_amount' => 'required',
+            'order_product' => 'required'
+        ]);
+
+        $validated = $validator->validated();
+
+        // melakukan perulangan untuk membongkar array order_product kiriman data dari front end 
+        // mengisi data kedalam class product melalui relasi
+        // mengirim pesan berbentuk respon json
+        
+        dd($validated);
     }
 }

@@ -58,6 +58,8 @@ Route::view('dashboard', 'dashboard')
         Route::get('example-getListProduct', [CashierController::class, 'exampleGetListProduct'])
             ->name('example-getListProduct');
 
+        Route::post('store-order-product', [CashierController::class, 'exampleStoreOrderProduct'])->name('store-order-product');
+
         // Route::get('dashboard-cashier', [CashierController::class, 'index'])
         //     ->name('dashboard-cashier');
     });
