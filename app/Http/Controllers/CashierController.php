@@ -64,4 +64,16 @@ class CashierController extends Controller
         
         dd($validated);
     }
+
+    public function storeOrderProduct(Request $request) {
+        // melakukan validasi pengecekan data request
+
+        // mengirim pesan error validasi berbentuk response json
+
+        // menyimpan data order product
+
+        // mengirim pesan berbentuk response json
+        
+        dd('melakukan store data');
+    }
 }

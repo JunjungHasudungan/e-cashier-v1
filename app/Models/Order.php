@@ -14,4 +14,6 @@ class Order extends Model
 
     // registrasi nama fields table
     protected $fillable = ['code_order', 'total_amount'];
+
+    // mendefinisikan fungsi relasi Order ke Product  class
 }

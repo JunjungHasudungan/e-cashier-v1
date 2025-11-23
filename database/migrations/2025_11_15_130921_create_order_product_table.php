@@ -7,16 +7,11 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('order_product', function (Blueprint $table) {
             $table->id();
-
-            // untuk jumlah order per produk
-            $table->integer('quantity');
+            $table->integer('quantity');  // untuk jumlah order per produk
 
             // untuk jumlah total harga per order berdasarkan jumlah produk
             $table->integer('sub_total');

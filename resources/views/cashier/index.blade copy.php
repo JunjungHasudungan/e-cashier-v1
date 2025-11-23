@@ -11,18 +11,19 @@
                         <div class="mt-2"> --}}
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 item-start">
                                 {{-- start card list product --}}
-                               <div class="scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex duration-250 focus:outline focus:outline-2 focus:outline-red-500 w-full">
-                                    <div class="grid grid-cols-2 gap-2 w-full">
-                                        {{-- @for ($i = 0; $i < 6; $i++) --}}
+                                <div class="scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex duration-250 focus:outline focus:outline-2 focus:outline-red-500 w-full">
+                                    <div class="grid grid-col-2 gap-2 w-full">
+                                        {{-- start melakukan pengecekan data  --}}
                                         <template x-if="listProduct">
+                                            {{-- start melakukan perulangan untuk membongkar data array listProduk --}}
                                             <template x-for="product in listProduct" :key="product.id">
                                                 <div class="motion-safe:hover:scale-[1.01] transition-transform w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
                                                     <a href="#">
-                                                        <img class="p-2 rounded-xl" src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image.jpg" alt="product image" />
+                                                        <img class="p-2 rounded-xl" src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg" alt="product image" />
                                                     </a>
                                                     <div class="px-5 pb-5">
                                                         <a href="#">
-                                                            <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white" x-text="product.name"></h5>
+                                                            <h5 x-text="product.name" class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white"></h5>
                                                         </a>
                                                         <div class="flex items-center mt-2.5 mb-5">
                                                             <div class="flex items-center space-x-1 rtl:space-x-reverse">
@@ -42,18 +43,19 @@
                                                                     <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
                                                                 </svg>
                                                             </div>
+                                                            {{-- start looping product.stocks --}}
                                                             <template x-if="product.stocks">
-                                                                <template x-for="stock in product.stocks" :key="stock.id">
+                                                                <template x-for="stock in product.stocks">
                                                                     <span x-text="stock.quantity" class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-sm dark:bg-blue-200 dark:text-blue-800 ms-3"></span>
                                                                 </template>
                                                             </template>
+                                                             {{-- end looping product.stocks --}}
                                                         </div>
                                                         <div class="flex items-center justify-between">
-                                                            <span class="text-sm font-bold text-gray-900 dark:text-white">Rp <p x-text="parseInt(product.price)"></p> </span>
+                                                            <span x-text="product.price" class="text-3xl font-bold text-gray-900 dark:text-white"></span>
                                                             <button
-                                                                {{-- menggunakan fungsi event click untuk tambah product kedalam keranjang --}}
-                                                                x-on:click="addProductToCart(product)"
-                                                                type="button"
+                                                                x-on:click="addToCart()" 
+                                                                type="button" 
                                                                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                                                 Add to cart
                                                             </button>
@@ -61,8 +63,10 @@
                                                     </div>
                                                 </div>
                                             </template>
+                                            {{-- end melakukan perulangan untuk membongkar data array listProduk --}}
                                         </template>
-                                        {{-- @endfor --}}
+                                        
+                                        {{-- end start pengecekan data --}}
                                     </div>
                                 </div>
                                 {{-- end card list product --}}
@@ -71,19 +75,19 @@
                                 <div class="scale-100 p-6 dark:bg-gray-800 rounded-lg shadow-md flex flex-col justify-between">
                                     <div>
                                         {{-- membuat h2 untuk tulisan keterangan --}}
-                                        <h2 class="mt-2 text-xl font-semibold text-gray-900 dark:text-white">List Order Produk</h2>
+                                         <h2 class="mt-2 text-xl font-semibold text-gray-900 dark:text-white">List Order Produk</h2>
                                         <div class="relative overflow-x-auto sm:rounded-lg">
                                             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                                                 <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
                                                     <tr>
                                                         <th scope="col" class="px-6 py-3 rounded-s-lg">
-                                                            Nama Produk
+                                                            Product name
                                                         </th>
                                                         <th scope="col" class="px-6 py-3">
-                                                            Jumlah
+                                                            Qty
                                                         </th>
                                                         <th scope="col" class="px-6 py-3">
-                                                            Harga
+                                                            Price
                                                         </th>
                                                         <th scope="col" class="px-6 py-3 rounded-e-lg">
 
@@ -91,11 +95,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {{-- melakukan pengecekan data listProductOnCart --}}
-                                                    <template x-if="listProductOnCart.length > 0">
-                                                        <p>ada produk dalam keranjang</p>
-                                                    </template>
-                                                    {{-- <tr class="bg-white dark:bg-gray-800">
+                                                    <tr class="bg-white dark:bg-gray-800">
                                                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                             Apple MacBook Pro 17"
                                                         </th>
@@ -110,7 +110,7 @@
                                                                 <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
                                                             </svg>
                                                         </td>
-                                                    </tr> --}}
+                                                    </tr>
 
                                                 </tbody>
                                                 <tfoot>
