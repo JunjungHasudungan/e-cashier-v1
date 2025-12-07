@@ -1,7 +1,10 @@
 function stateListProduct() {
     return {
-        listProduct: [], // membuat array untuk menampung data dari backend
-        listProductOnCart: [], // membuat array untuk menampung data produk didalam keranjang
+        // membuat array untuk menampung data dari backend
+        listProduct: [],
+
+        // membuat array untuk menampung data produk didalam keranjang
+        listProductOnCart: [],
         init() {
             this.getListProduct()
         },
@@ -30,7 +33,22 @@ function stateListProduct() {
                     stock: product.stocks[0].quantity ?? 0 // menampung jumlah stok dari produk
                 })
             }
-            console.log('tombol untuk tambah produk kedalam keranjang', product)
         },
+        decrementQty(product){
+           if (product.qty > 1) {
+                product.qty--
+           }
+        },
+        incrementQty(product) {
+            if(product.qty < product.stock) {
+                product.qty++
+             }
+        },
+        removeProductFromCart(productId) {
+           if(!productId) return
+
+           // jika ada product id yang dipilih maka akan dihapus dari cart
+           this.listProductOnCart = this.listProductOnCart.filter(item => item.id !== productId)
+        }
      }
 }
