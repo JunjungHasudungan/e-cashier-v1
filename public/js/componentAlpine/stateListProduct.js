@@ -30,7 +30,7 @@ function stateListProduct() {
                     stock: product.stocks[0].quantity ?? 0 // menampung jumlah stok dari produk
                 })
             }
-            console.log('tombol untuk tambah produk kedalam keranjang', product)
+            // console.log('tombol untuk tambah produk kedalam keranjang', product)
         },
      }
 }
