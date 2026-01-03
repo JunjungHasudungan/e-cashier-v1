@@ -5,6 +5,7 @@ function exampleDashboardCashier() {
         listProductOnCart: [],
         dataOrderProduct: { amount: '', order_product: [] },
         messageError: '',
+        onProcessCalculate: false,
         async getListProduct() {
             try {
                 let result = await axios.get('/example-getListProduct')
@@ -47,22 +48,24 @@ function exampleDashboardCashier() {
             let totalAmountOrder = this.listProductOnCart.reduce((tempSum, itemProduct)=> { // tempSum sebagai tempat menampung penjumlahan
                 return tempSum + parseInt(parseFloat(itemProduct.price) * itemProduct.qty) // itemProduct sebagai objek yang telah diloop
             },0)
-            
+
             // melakukan pengecekan bila  jumlah_pembayaran lebih kecil dari total semua barang
             if(this.dataOrderProduct.amount < totalAmountOrder) {
                 this.messageError = "uang tidak cukup"
                 return
             }
 
+            try {
+
             // melakukan reset nilai array menjadi kosong terlebih dahulu
             this.dataOrderProduct.order_product = []; // reset dulu
 
             // membongkar semua orderan menggunakan foreach karna nilai berbentuk array
            this.listProductOnCart.forEach(itemProduct => {
-                
+
                 // memasukkan nilai objek itemProduct kedalam array order_product
                 this.dataOrderProduct.order_product.push({
-                    // memasukkan nilai kedalam 
+                    // memasukkan nilai kedalam
                     product_id: itemProduct.id,
                     quantity: itemProduct.qty,
                     amount: itemProduct.qty * parseFloat(itemProduct.price)
@@ -76,8 +79,20 @@ function exampleDashboardCashier() {
                 order_product: this.dataOrderProduct.order_product
             }
 
+            // menghapus pesan error
+            this.messageError = ''
+
+            // mengaktifkan loading spinner
+            this.onProcessCalculate = true
+
             const result = await axios.post('store-order-product', sendDataOrderProduct)
 
+            } catch (error) {
+                console.log(error)
+            } finally {
+                // selesai mengakhiri proses kalkulasi perhitungan dan menonaktifkan loading
+                this.onProcessCalculate = false
+            }
         },
         init() {
             this.getListProduct();

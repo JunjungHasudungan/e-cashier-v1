@@ -10,11 +10,12 @@ class CashierController extends Controller
 {
     //membuat sebuah action/function
     public function index() {
-        return view('cashier.index');
+        // return view('cashier.index');
+        return view('cashier.example-index');
      }
 
     // membuat fungsi untuk mengambil data dan mengirim ke front-end
-    public function getListProduct() { 
+    public function getListProduct() {
         try {
             // mengambil data produk dan relasinya
             $listProduct = Product::with('stocks')->get();
@@ -30,7 +31,7 @@ class CashierController extends Controller
                 'message'   => $error->getMessage()
             ], 500);
         }
-    } 
+    }
 
     public function exampleIndex() {
         return view('cashier.example-index');
@@ -58,10 +59,10 @@ class CashierController extends Controller
 
         $validated = $validator->validated();
 
-        // melakukan perulangan untuk membongkar array order_product kiriman data dari front end 
+        // melakukan perulangan untuk membongkar array order_product kiriman data dari front end
         // mengisi data kedalam class product melalui relasi
         // mengirim pesan berbentuk respon json
-        
+
         dd($validated);
     }
 
@@ -73,7 +74,7 @@ class CashierController extends Controller
         // menyimpan data order product
 
         // mengirim pesan berbentuk response json
-        
+
         dd('melakukan store data');
     }
 }
