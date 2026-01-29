@@ -15,7 +15,7 @@ class AdminController extends Controller
      }
 
     public function create() {
-        return view('admin._card-create-product');
+        return view('admin._demo_card-create-product');
     }
 
     public function store(Request $request) {
@@ -25,14 +25,13 @@ class AdminController extends Controller
             'price' => 'required',
             'quantity' => 'required',
             'description' => 'required',
-            [
+            ],[
                 'name.required' => 'Nama wajib di isi..',
                 'size.required' => 'Ukuran wajib di pilih..',
                 'price.required' => 'Harga wajib di isi..',
                 'quantity.required' => 'Jumlah wajib di isi..',
                 'description.required' => 'Keterangan wajib di isi..',
-            ]
-        ]);
+            ]);
 
         $product = Product::create($validated);
 
