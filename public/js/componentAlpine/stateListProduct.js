@@ -5,6 +5,10 @@ function stateListProduct() {
 
         // membuat array untuk menampung data produk didalam keranjang
         listProductOnCart: [],
+
+        // menampung data order product yang akan dibayar sesuai dengan jumlah produk yang dibeli
+        dataOrderProduct: { amount: '', order_product: [] },
+
         init() {
             this.getListProduct()
         },
@@ -44,6 +48,12 @@ function stateListProduct() {
                 product.qty++
              }
         },
+        // ketika 1 objek produk didalam
+        productInCart(productId) {
+            return this.listProductOnCart.some(item=> item.id == productId)
+        },
+        // fungsi untuk melakukan cek jumlah uang cash yang dikasi customer
+        payNow() { console.log('tombol untuk melakukan pembayaran..') },
         removeProductFromCart(productId) {
            if(!productId) return
 

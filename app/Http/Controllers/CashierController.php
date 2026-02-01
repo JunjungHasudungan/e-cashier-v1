@@ -10,8 +10,8 @@ class CashierController extends Controller
 {
     //membuat sebuah action/function
     public function index() {
-        // return view('cashier.index');
-        return view('cashier.example-index');
+        return view('cashier.index');
+        // return view('cashier.example-index');
      }
 
     // membuat fungsi untuk mengambil data dan mengirim ke front-end

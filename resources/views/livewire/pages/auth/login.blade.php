@@ -27,7 +27,7 @@ new #[Layout('layouts.guest')] class extends Component
             $this->redirectIntended('/dashboard-admin', navigate: true);
         }else {
             // alihkan kedashboard cashier
-            $this->redirectIntended('dashboard-cashier', navigate: true);
+            $this->redirectIntended('/dashboard-cashier', navigate: true);
         }
 
     }

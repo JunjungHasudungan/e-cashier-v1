@@ -54,8 +54,18 @@
                                                                 {{-- menggunakan fungsi event click untuk tambah product kedalam keranjang --}}
                                                                 x-on:click="addProductToCart(product)"
                                                                 type="button"
+                                                                {{-- melakukan disable tombol tambah --}}
+                                                                x-bind:disabled="productInCart(product.id)"
+
+                                                                {{-- memanipulasi warna tombol dan efek cursor disabled --}}
+                                                                x-bind:class="productInCart(product.id)
+                                                                ? 'bg-gray-400 cursor-not-allowed'
+                                                                : 'bg-blue-700 hover:bg-blue-800'
+                                                                "
                                                                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                                                Add to cart
+                                                                {{-- merubah keterangan tombol ketika dan sebelum disabled --}}
+                                                                <span x-text="productInCart(product.id) ? 'Added' : ' Add to cart'"></span>
+
                                                             </button>
                                                         </div>
                                                     </div>
@@ -180,16 +190,51 @@
                                                         {{-- end looping listProductOnCart --}}
                                                     </template>
                                                 </tbody>
-                                                <tfoot>
-                                                    <tr class="font-semibold text-gray-900 dark:text-white">
-                                                        <th scope="row" class="px-6 py-3 text-base">Total</th>
-                                                        <td class="px-6 py-3">3</td>
-                                                        <td class="px-6 py-3">21,000</td>
-                                                    </tr>
-                                                </template>
+
+                                                    <template x-if="listProductOnCart.length > 0">
+                                                        <tfoot>
+                                                            {{-- menampilikan total pembayaran produk --}}
+                                                            <tr class="font-semibold text-gray-900 dark:text-white">
+                                                                <th scope="row" class="px-6 py-3 text-base">Total Pembayaran</th>
+                                                                <td
+                                                                {{-- menampilkan jumlah seluruh product dalam keranjang --}}
+                                                                    class="px-6 py-3"
+                                                                    x-text="listProductOnCart.reduce((sum, item)=>  sum +  item.qty, 0)
+                                                                    .toLocaleString('id-ID')"></td>
+                                                                <td
+                                                                {{-- menampilkan jumlah harga dari semua produk dalam keranjang --}}
+                                                                    class="px-6 py-3"
+                                                                    x-text="listProductOnCart.reduce((sum, item)=>  sum +  (item.qty * item.price), 0)
+                                                                .toLocaleString('id-ID')"
+                                                                ></td>
+                                                            </tr>
+                                                            {{-- menampilkan jumlah pembayaran dari customer --}}
+                                                            <tr class="font-semibold text-gray-900 dark:text-white">
+                                                                <th scope="row" class="px-6 py-3 text-base">Jumlah Pembayaran</th>
+                                                                <td class="px-6 py-3">
+                                                                    {{-- menampung inputan pembayaran dari customer --}}
+                                                                    <input
+                                                                        type="number"
+                                                                        class=""
+                                                                        x-model="dataOrderProduct.amount"
+                                                                    />
+                                                                    {{-- menampilkan pesan error jumlah uang cash < dari total seluruh produk --}}
+                                                                </td>
+                                                                <td class="px-6 py-3">
+                                                                   {{-- tombol untuk melakukan transaksi pembayaran belanja  --}}
+                                                                    <button
+                                                                        type="button"
+                                                                        x-on:click="payNow"
+                                                                        class="text-white bg-gray-400 hover:bg-gray-600 box-border border border-blue-400 focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-lg text-sm px-3 py-2 focus:outline-none">
+                                                                        Pay Now
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                        </tfoot>
+                                                    </template>
+
                                                 {{-- start looping listProductOnCart --}}
 
-                                            </template>
                                             {{-- <tr class="bg-white dark:bg-gray-800">
                                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                     Apple MacBook Pro 17"
@@ -207,14 +252,6 @@
                                                 </td>
                                             </tr> --}}
 
-                                        </tbody>
-                                        <tfoot>
-                                            <tr class="font-semibold text-gray-900 dark:text-white">
-                                                <th scope="row" class="px-6 py-3 text-base">Total</th>
-                                                <td class="px-6 py-3">3</td>
-                                                <td class="px-6 py-3">21,000</td>
-                                            </tr>
-                                        </tfoot>
                                     </table>
                                 </div>
                             </div>
