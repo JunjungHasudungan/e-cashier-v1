@@ -3,7 +3,7 @@
     {{-- pengecekan role admin, cashier untuk memisahkan url --}}
     @if (auth()->user()->role == 'admin')
         {{-- url ke dashboard-admin --}}
-        <a href="{{ url('/dashboard-admin') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500" wire:navigate>Dashboard</a>
+        <a href="{{ url('/admin-dashboard') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500" wire:navigate>Dashboard</a>
         @else
          {{-- url ke dashboard-cashier --}}
          <a href="{{ url('/dashboard-cashier') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500" wire:navigate>Dashboard</a>

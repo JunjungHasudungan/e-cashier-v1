@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('EDIT PRODUCT') }} 
+            {{ __('EDIT PRODUCT') }}
         </h2>
     </x-slot>
 
@@ -74,8 +74,8 @@
                     let confirm = window.confirm('yakin untuk membatalkan?')
                     if(confirm) {
                         // mengalihkan kehalaman
-                        document.location.href="{{route('dashboard-admin')}}"
-                        // document.window.href ="{{route('dashboard-admin')}}"
+                        document.location.href="{{route('admin-dashboard')}}"
+                        // document.window.href ="{{route('admin-dashboard')}}"
                     }
                 },
             }))

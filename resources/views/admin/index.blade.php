@@ -22,10 +22,12 @@
                     {{-- start for created message session --}}
                     @if (session('status') == 'created-message')
                         <div
-                        x-data="{ open: false}"
+                        x-data="{ open: true}"
                         x-show="open"
                         x-transition
-                        x-init="setTimeout(()=> open= false, 10000)"
+                        x-init="$watch('open', value => { 
+                            if(value) setTimeout(() => open = false, 3000)
+                        })"
                         class="flex items-center p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
                             <svg class="shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
@@ -41,10 +43,10 @@
                     {{-- start for updated message session --}}
                     @if (session('status') == 'updated-message')
                         <div
-                        x-data="{ updated: false}"
+                        x-data="{ updated: true}"
                         x-show="updated"
                         x-transition
-                        x-init="setTimeout(()=> updated= false, 10000)"
+                        x-init="setTimeout(() => updated = false, 3000)"
                         class="flex items-center p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
                             <svg class="shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
@@ -57,8 +59,22 @@
                     @endif
                     {{-- end for updated message session --}}
 
-                    {{-- start for updated message session --}}
-
+                    {{-- start for delete message session --}}
+                        <div
+                            x-show="deleted"
+                            x-transition
+                            x-init="$watch('deleted', value => { 
+                                        if(value) setTimeout(() => deleted = false, 3000)
+                                    })"
+                            class="flex items-center p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
+                            <svg class="shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                            </svg>
+                            <span class="sr-only">Info</span>
+                            <div>
+                                <span x-text="message" class="font-medium"></span>
+                            </div>
+                        </div>
                     {{-- end for updated message session --}}
 
                     {{-- start for deleted message session --}}
@@ -92,7 +108,7 @@
                                 </thead>
                                 <tbody>
                                     @forelse ($listProduct as $product)
-                                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                        <tr id="product-{{ $product->id }}" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                 {{ $loop->iteration }}
                                             </th>
@@ -117,7 +133,7 @@
                                             <td class="px-6 py-4 text-right gap-3">
                                                 <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Show</a>
                                                 <a href="{{ route('product', $product->id , 'edit' ) }}" class="font-medium text-bgray-600 dark:text-gray-500 hover:underline">Edit</a>
-                                                <a @click="deleteConfirmation( {{ $product->id }} )" class="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
+                                                <a x-on:click="deleteConfirmation( {{ $product->id }} )" class="cursor-pointer font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
                                             </td>
                                         </tr>
                                     @empty
@@ -166,13 +182,26 @@
     </div>
     <script>
         document.addEventListener('alpine:init', () => {
+            axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
             Alpine.data('stateProduct', () => ({
-                deleteConfirmation(productId) {
-                    let confirmation= confirm('Yakin untuk menghapus?')
-                    if (confirmation) {
-                        axios.delete('delete-product/'+productId)
-                    }
+                deleted: false,
+                message: '',
+                async deleteConfirmation(productId) {
 
+                    let confirmation = confirm('Yakin untuk menghapus?')
+
+                    if (!confirmation) return
+
+                    try {
+                        let result = await axios.delete('/delete-product/' + productId)
+
+                        let row = document.getElementById('product-' + productId)
+                        if (row) row.remove()
+                        this.message = result.data.message
+                       this.deleted = true
+                    } catch (error) {
+                        console.error(error)
+                    }
                 },
             }))
         })

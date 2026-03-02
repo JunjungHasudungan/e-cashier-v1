@@ -25,8 +25,8 @@ Route::view('dashboard', 'dashboard')
     // membuat middleware baru
     Route::middleware(['auth', 'verified'])->group(function(){
         // ROUTE FOR ADMIN
-        Route::get('dashboard-admin', [AdminController::class, 'index'])
-            ->name('dashboard-admin');
+        Route::get('admin-dashboard', [AdminController::class, 'index'])
+            ->name('admin-dashboard');
 
          Route::get('create-product', [AdminController::class, 'create'])
             ->name('create-product');
@@ -41,7 +41,6 @@ Route::view('dashboard', 'dashboard')
             ->name('restock-product');
 
         // route untuk edit product
-        // "product/2/edit"
         Route::get('product/{productId}/edit',  [AdminController::class, 'editProduct'])
             ->name('product');
 
@@ -58,7 +57,7 @@ Route::view('dashboard', 'dashboard')
         Route::get('example-getListProduct', [CashierController::class, 'exampleGetListProduct'])
             ->name('example-getListProduct');
 
-            
+
         // url route mengirim data store order product dari front end ke back-end
         Route::post('store-order-product', [CashierController::class, 'exampleStoreOrderProduct'])->name('store-order-product');
 

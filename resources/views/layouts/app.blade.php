@@ -13,8 +13,6 @@
         <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
         {{-- alamat stateListProduct.js --}}
         <script src="{{ asset('js/componentAlpine/stateListProduct.js') }}"> </script>
-        <script src="{{ asset('js/componentAlpine/demoStateCreateProduct.js') }}"> </script>
-        <script src="{{ asset('js/alpine/exampleDashboardCashier.js') }}"></script>
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])

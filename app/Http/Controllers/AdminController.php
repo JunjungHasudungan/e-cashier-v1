@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
-use App\Models\Stock;
+use App\Models\{Product, Stock};
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -15,32 +14,38 @@ class AdminController extends Controller
      }
 
     public function create() {
-        return view('admin._demo_card-create-product');
+        return view('admin._card-create-product');
     }
 
     public function store(Request $request) {
         $validated  = $request->validate([
-            'name' => 'required',
+            'name' => 'required|unique:products',
             'size' => 'required',
             'price' => 'required',
             'quantity' => 'required',
             'description' => 'required',
             ],[
-                'name.required' => 'Nama wajib di isi..',
-                'size.required' => 'Ukuran wajib di pilih..',
-                'price.required' => 'Harga wajib di isi..',
-                'quantity.required' => 'Jumlah wajib di isi..',
-                'description.required' => 'Keterangan wajib di isi..',
+                'name.unique' => 'nama produk sudah digunakan..',
+                'name.required' => 'nama wajib di isi..',
+                'size.required' => 'ukuran wajib di pilih..',
+                'price.required' => 'harga wajib di isi..',
+                'quantity.required' => 'jumlah wajib di isi..',
+                'description.required' => 'keterangan wajib di isi..',
             ]);
 
-        $product = Product::create($validated);
+        $product = Product::create([
+            'name' => $validated['name'],
+            'size' => $validated['size'],
+            'price' => $validated['price'],
+            'description' => $validated['description'],
+        ]);
 
         Stock::create([
             'product_id'    => $product->id,
             'quantity'  => $validated['quantity']
         ]);
 
-        return redirect()->route('dashboard-admin')
+        return redirect()->route('admin-dashboard')
                 ->with('status', 'created-message');
     }
 
@@ -89,7 +94,7 @@ class AdminController extends Controller
         ]);
 
         // mengembalikan ke jalur admin yang utama
-       return redirect()->route('dashboard-admin')
+       return redirect()->route('admin-dashboard')
                 ->with('status', 'updated-message');
     }
 }

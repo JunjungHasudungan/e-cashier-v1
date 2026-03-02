@@ -24,10 +24,10 @@ new #[Layout('layouts.guest')] class extends Component
         // melakukan pengecekan user:admin, cashier
         if(auth()->user()->role == 'admin') {
             // alihkan kedashboard admin
-            $this->redirectIntended('/dashboard-admin', navigate: true);
+             $this->redirectIntended(default: RouteServiceProvider::HOME_ADMIN, navigate: true);
         }else {
             // alihkan kedashboard cashier
-            $this->redirectIntended('/dashboard-cashier', navigate: true);
+             $this->redirectIntended(default: RouteServiceProvider::HOME, navigate: true);
         }
 
     }
